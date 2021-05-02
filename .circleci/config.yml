@@ -15,12 +15,12 @@ jobs:
           name: Build
           command: |
             apt update && apt install libncurses5 -y
-            cd ./matrix/matrix-android
-            ./gradlew assemble
-#      - run:
-#          name: Check
-#          command: |
-#            ./gradlew checkstyle
+            # cd ./matrix/matrix-android
+            # ./gradlew assemble
+      # - run:
+      #     name: Check
+      #     command: |
+      #       ./gradlew checkstyle
 
   buildAndroidTest:
     docker:
