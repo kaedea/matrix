@@ -1,3 +1,4 @@
+
 version: 2
 jobs:
   test:
@@ -13,11 +14,40 @@ jobs:
       - run:
           name: Build
           command: |
+            set +e
             apt update && apt install libncurses5 -y
+            # cd ./matrix/matrix-android
+            # ./gradlew assemble
+      # - run:
+      #     name: Check
+      #     command: |
+      #       ./gradlew checkstyle
+
+  buildAndroidTest:
+    docker:
+      - image: gengjiawen/android-ndk:android-ndk-r16b
+    steps:
+      - checkout
+      - run:
+          name: Publish Test
+          command: | 
+            cd matrix/matrix-android
+            touch local.properties
+            ./gradlew publishToMavenLocal
+      - run:
+          name: Build Sample Test
+          command: | 
+            cd samples/sample-android
+            touch local.properties
+            ./gradlew assembleDebug -PcompileWithSrc=true
 
 
 workflows:
   version: 2
-  build_and_test:
+  publishTest:
     jobs:
       - test
+      - buildAndroidTest:
+          filters:
+            branches:
+              only: master
