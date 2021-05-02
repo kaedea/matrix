@@ -24,7 +24,7 @@ jobs:
       #     command: |
       #       ./gradlew checkstyle
 
-  buildAndroidTest:
+  testBuildAndroid:
     docker:
       - image: gengjiawen/android-ndk:android-ndk-r16b
     steps:
@@ -47,8 +47,11 @@ workflows:
   version: 2
   publishTest:
     jobs:
-      - test
-      - buildAndroidTest:
+      - test:
+          filters:
+            branches:
+              only: master
+      - testBuildAndroid:
           filters:
             branches:
               only: master
