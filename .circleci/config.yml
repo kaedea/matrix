@@ -14,6 +14,13 @@ jobs:
             cd matrix/matrix-android
             touch local.properties
             ./gradlew publishToMavenLocal
+      - run:
+          name: Build Sample Test
+          command: | 
+            cd samples/sample-android
+            touch local.properties
+            ./gradlew assembleDebug -PcompileWithSrc=true
+
 
 workflows:
   version: 2.1
