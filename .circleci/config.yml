@@ -1,28 +1,24 @@
-version: 2
+version: 2.1
+
+orbs:
+  android: circleci/android@0.2.1
+
 jobs:
-  test:
-    working_directory: ~/repo
-    docker:
-      - image: gengjiawen/android-ndk:android-ndk-r16b
+  build:
+    executor: android/android
     steps:
       - checkout
       - run:
-          name: Envinfo
-          command: |
-            npm i -g envinfo && envinfo
-      - run:
-          name: Build
-          command: |
-            apt update && apt install libncurses5 -y
-            cd ./matrix/matrix-android
-            ./gradlew assemble
-#      - run:
-#          name: Check
-#          command: |
-#            ./gradlew checkstyle
+          name: Publish Test
+          command: | 
+            cd matrix/matrix-android
+            ./gradlew publishToMavenLocal
 
 workflows:
-  version: 2
-  build_and_test:
+  version: 2.1
+  buildapk-and-deploy:
     jobs:
-      - test
+      - build:
+          filters:
+            branches:
+              only: master
