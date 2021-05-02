@@ -18,6 +18,7 @@ jobs:
             apt update && apt install libncurses5 -y
             # cd ./matrix/matrix-android
             # ./gradlew assemble
+            echo "Ignore step failure for the moment" || true
       # - run:
       #     name: Check
       #     command: |
