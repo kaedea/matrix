@@ -12,11 +12,12 @@ jobs:
           name: Publish Test
           command: | 
             cd matrix/matrix-android
+            touch local.properties
             ./gradlew publishToMavenLocal
 
 workflows:
   version: 2.1
-  buildapk-and-deploy:
+  publishTest:
     jobs:
       - build:
           filters:
