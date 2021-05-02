@@ -23,7 +23,8 @@ jobs:
 #            ./gradlew checkstyle
 
   buildAndroidTest:
-    executor: android/android
+    docker:
+      - image: gengjiawen/android-ndk:android-ndk-r16b
     steps:
       - checkout
       - run:
