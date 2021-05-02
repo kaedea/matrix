@@ -1,8 +1,5 @@
-version: 2.1
 
-orbs:
-  android: circleci/android@0.2.1
-
+version: 2
 jobs:
   test:
     working_directory: ~/repo
@@ -17,8 +14,13 @@ jobs:
       - run:
           name: Build
           command: |
-            set +e
             apt update && apt install libncurses5 -y
+            cd ./matrix/matrix-android
+            ./gradlew assemble
+#      - run:
+#          name: Check
+#          command: |
+#            ./gradlew checkstyle
 
   buildAndroidTest:
     executor: android/android
@@ -39,7 +41,7 @@ jobs:
 
 
 workflows:
-  version: 2.1
+  version: 2
   publishTest:
     jobs:
       - test
