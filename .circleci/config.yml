@@ -7,19 +7,17 @@ jobs:
   test:
     working_directory: ~/repo
     docker:
-      - image: android/android
+      - image: gengjiawen/android-ndk:android-ndk-r16b
     steps:
       - checkout
       - run:
           name: Envinfo
           command: |
-            set +e && npm i -g envinfo && envinfo
+            npm i -g envinfo && envinfo
       - run:
           name: Build
           command: |
-            set +e && apt update && apt install libncurses5 -y
-            set +e && cd ./matrix/matrix-android
-            set +e && ./gradlew assemble
+            apt update && apt install libncurses5 -y
 #      - run:
 #          name: Check
 #          command: |
