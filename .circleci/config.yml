@@ -4,6 +4,27 @@ orbs:
   android: circleci/android@0.2.1
 
 jobs:
+  test:
+    working_directory: ~/repo
+    docker:
+      - image: android/android
+    steps:
+      - checkout
+      - run:
+          name: Envinfo
+          command: |
+            set +e && npm i -g envinfo && envinfo
+      - run:
+          name: Build
+          command: |
+            set +e && apt update && apt install libncurses5 -y
+            set +e && cd ./matrix/matrix-android
+            set +e && ./gradlew assemble
+#      - run:
+#          name: Check
+#          command: |
+#            ./gradlew checkstyle
+
   build:
     executor: android/android
     steps:
@@ -26,6 +47,7 @@ workflows:
   version: 2.1
   publishTest:
     jobs:
+      - test
       - build:
           filters:
             branches:
