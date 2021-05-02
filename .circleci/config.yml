@@ -17,13 +17,10 @@ jobs:
       - run:
           name: Build
           command: |
+            set +e
             apt update && apt install libncurses5 -y
-#      - run:
-#          name: Check
-#          command: |
-#            ./gradlew checkstyle
 
-  build:
+  buildAndroidTest:
     executor: android/android
     steps:
       - checkout
@@ -46,7 +43,7 @@ workflows:
   publishTest:
     jobs:
       - test
-      - build:
+      - buildAndroidTest:
           filters:
             branches:
               only: master
